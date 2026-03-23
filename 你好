@@ -1,14 +1,13 @@
-#!name=HelloTalk去开屏广告
-#!desc=仅屏蔽HelloTalk启动页广告（更稳定）
+#!name=HelloTalk去开屏广告（本地稳定版）
+#!desc=无远程脚本，不会下载失败
 #!author=ChatGPT
 
 [Rewrite]
-# 直接拦截开屏广告接口（常见路径特征）
+# 拦截开屏广告接口（核心）
 ^https:\/\/.*hellotalk\.com\/.*(splash|launch|startup|boot|ad).* url reject
 
-[Script]
-# 如果广告是接口返回数据（而不是单独请求）
-http-response ^https:\/\/.*hellotalk\.com\/.*(config|init|startup).* script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/rewrite/empty.js, requires-body=true
+# 拦截初始化中带广告字段
+^https:\/\/.*hellotalk\.com\/.*(config|init).* url reject
 
 [MITM]
 hostname = *.hellotalk.com
